@@ -36,7 +36,8 @@ def get_name(soup):
 
 def get_grade(soup):
     '''获取评分'''
-    grades = soup.find_all('small', class_='grey')
+    grades = soup.find_all('small', class_='fade')
+    # grades = [grade for grade in grades if grade['href'].startswith('/subject/')]
     return grades
 
 
