@@ -47,27 +47,33 @@ def get_vote(soup):
     return votes
 
 
-def save_data(row, names, grades, votes):
+def save_data(names, grades, votes, option='a', flag = 1):
     '''保存数据'''
-    with open('gradevsvotes.csv', 'w', encoding='utf-8', newline='') as f:
+    with open('gradevsvotes.csv', option, encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(row)
+        if flag == 0:
+            writer.writerow(('Name', 'Grade', 'Votes'))
         for i in range(len(names)):
             writer.writerow((names[i].text, grades[i].text, votes[i].text))
 
 
 if __name__ == "__main__":
     baseurl = "https://bgm.tv/"
-    url = baseurl + "anime/browser?sort=rank&page=1"
-    response = request(url)
-    soup = find_data(response)
 
-    row = ('Name', 'Grade', 'Vote')
-    names = get_name(soup)
-    grades = get_grade(soup)
-    votes = get_vote(soup)
+    for page in range(1, 11):
+        url = baseurl + "anime/browser?sort=rank&page=" + str(page)
+    
+        response = request(url)
+        soup = find_data(response)
 
-    for name in names:
-        print(name)
+        names = get_name(soup)
+        grades = get_grade(soup)
+        votes = get_vote(soup)
 
-    save_data(row, names, grades, votes)
+        for name in names:
+            print(name.text)
+
+        if page == 1:
+            save_data(names, grades, votes, 'w', 0)
+        else:
+            save_data(names, grades, votes)
