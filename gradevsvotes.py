@@ -60,7 +60,7 @@ def save_data(names, grades, votes, option='a', flag = 1):
 if __name__ == "__main__":
     baseurl = "https://bgm.tv/"
 
-    for page in range(1, 11):
+    for page in range(1, 50):
         url = baseurl + "anime/browser?sort=rank&page=" + str(page)
     
         response = request(url)
